@@ -19,7 +19,7 @@ class AddItem extends ConsumerWidget {
     }
     ref
         .read(listProvider.notifier)
-        .add(Place(name: enteredtext, image: selectedImage!));
+        .add(Place(title: enteredtext, image: selectedImage!));
     Navigator.pop(context);
   }
 

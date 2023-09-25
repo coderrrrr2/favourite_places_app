@@ -36,7 +36,7 @@ class StartScreen extends StatelessWidget {
                     backgroundImage: FileImage(text[index].image),
                   ),
                   title: Text(
-                    text[index].name,
+                    text[index].title,
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                 ),

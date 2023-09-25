@@ -7,7 +7,8 @@ Uuid uuid = const Uuid();
 class Place {
   String id;
 
-  Place({required this.name, required this.image}) : id = const Uuid().v4();
-  final String name;
+  Place({required this.title, required this.image, id})
+      : id = id ?? const Uuid().v4();
+  final String title;
   final File image;
 }

@@ -11,7 +11,7 @@ class DetailsScreen extends ConsumerWidget {
     return Consumer(builder: (context, ref, child) {
       return Scaffold(
           appBar: AppBar(
-            title: Text(currentItem.name),
+            title: Text(currentItem.title),
           ),
           body: Stack(
             children: [
