@@ -1,6 +1,5 @@
 // ignore_for_file: must_be_immutable
 import 'dart:io';
-import 'package:favourite_places_app/models/place.dart';
 import 'package:favourite_places_app/providers/main_provider.dart';
 import 'package:favourite_places_app/widgets/images_input.dart';
 import 'package:favourite_places_app/widgets/location_input.dart';
@@ -17,9 +16,7 @@ class AddItem extends ConsumerWidget {
     if (enteredtext.isEmpty || selectedImage == null) {
       return;
     }
-    ref
-        .read(listProvider.notifier)
-        .add(Place(title: enteredtext, image: selectedImage!));
+    ref.read(listProvider.notifier).add(enteredtext, selectedImage!);
     Navigator.pop(context);
   }
 

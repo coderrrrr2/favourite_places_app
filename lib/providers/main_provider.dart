@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:favourite_places_app/models/place.dart';
@@ -9,11 +10,13 @@ import 'package:sqflite/sqlite_api.dart';
 
 Future<Database> getDataBase() async {
   final dbPath = await sql.getDatabasesPath();
-  final db = await sql.openDatabase(path.join(dbPath, 'places.db'),
+  final db = await sql.openDatabase(path.join(dbPath, 'placesDB.db'),
       onCreate: (db, version) {
     return db.execute(
         "CREATE TABLE user_places(id TEXT PRIMARY KEY, title TEXT, image TEXT)");
   }, version: 1);
+  log("get database");
+
   return db;
 }
 
@@ -21,10 +24,15 @@ class ListManipulator extends StateNotifier<List<Place>> {
   ListManipulator() : super(const []);
   WidgetRef? ref;
 
-  void loadPlaces() async {
+  Future<void> loadPlaces() async {
+    log("hjkhjhhjhghhhhhhhhh");
+
     final db = await getDataBase();
     final data = await db.query('user_places');
-    final places = data
+    log(data.toString());
+    log("hjkhjhhjhghhhhhhhhh");
+
+    var places = data
         .map(
           (row) => Place(
               id: row['id'] as String,
@@ -32,24 +40,36 @@ class ListManipulator extends StateNotifier<List<Place>> {
               image: File(row['image'] as String)),
         )
         .toList();
+    log(places.toString());
     state = places;
   }
 
-  void add(Place item) async {
+  void add(String title, File image) async {
     final appDir = await syspaths.getApplicationDocumentsDirectory();
-    final fileName = path.basename(item.image.path);
-    await item.image.copy("${appDir.path}/$fileName");
-
+    final fileName = path.basename(image.path);
+    var pickedImages = await image.copy("${appDir.path}/$fileName");
+    log(pickedImages.toString());
+    final item = Place(
+      image: pickedImages,
+      title: title,
+    );
     state = [...state, item];
     final db = await getDataBase();
-    db.insert(
+    log(state.toString());
+
+    await db.insert(
       'user_places',
-      {'id': item.id, 'title': item.title},
+      {'id': item.id, 'title': item.title, 'image': item.image.path},
     );
+    log("add item");
   }
 
-  void remove(Place item) {
+  void remove(Place item) async {
     state = state.where((element) => element != item).toList();
+    final db = await getDataBase();
+    await db.delete('user_places', where: 'id == ?', whereArgs: [item.id]);
+    log("remove item");
+    log(state.toString());
   }
 }
 
