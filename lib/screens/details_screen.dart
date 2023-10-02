@@ -15,12 +15,13 @@ class DetailsScreen extends ConsumerWidget {
           ),
           body: Stack(
             children: [
-              Image.file(
+              SingleChildScrollView(
+                  child: Image.file(
                 currentItem.image,
                 fit: BoxFit.cover,
                 width: double.infinity,
                 height: double.infinity,
-              )
+              ))
             ],
           ));
     });

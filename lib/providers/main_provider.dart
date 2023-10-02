@@ -41,6 +41,8 @@ class ListManipulator extends StateNotifier<List<Place>> {
         )
         .toList();
     log(places.toString());
+   
+
     state = places;
   }
 
