@@ -13,16 +13,18 @@ class DetailsScreen extends ConsumerWidget {
           appBar: AppBar(
             title: Text(currentItem.title),
           ),
-          body: Stack(
-            children: [
-              SingleChildScrollView(
-                  child: Image.file(
-                currentItem.image,
-                fit: BoxFit.cover,
-                width: double.infinity,
-                height: double.infinity,
-              ))
-            ],
+          body: SingleChildScrollView(
+            child: Stack(
+              children: [
+                SingleChildScrollView(
+                    child: Image.file(
+                  currentItem.image,
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                  height: double.infinity,
+                ))
+              ],
+            ),
           ));
     });
   }

@@ -25,12 +25,10 @@ class ListManipulator extends StateNotifier<List<Place>> {
   WidgetRef? ref;
 
   Future<void> loadPlaces() async {
-    log("hjkhjhhjhghhhhhhhhh");
 
     final db = await getDataBase();
     final data = await db.query('user_places');
     log(data.toString());
-    log("hjkhjhhjhghhhhhhhhh");
 
     var places = data
         .map(
