@@ -1,3 +1,4 @@
+import 'package:favourite_places_app/models/place.dart';
 import 'package:favourite_places_app/providers/index_setter.dart';
 import 'package:favourite_places_app/providers/main_provider.dart';
 import 'package:favourite_places_app/screens/details_screen.dart';
@@ -6,7 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class UserPlaces extends ConsumerWidget {
   const UserPlaces({super.key, required this.text});
-  final text;
+  final List<Place> text;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     Widget currentBody = ListView.builder(

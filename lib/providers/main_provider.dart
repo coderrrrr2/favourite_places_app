@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:favourite_places_app/models/place.dart';
@@ -15,7 +14,6 @@ Future<Database> getDataBase() async {
     return db.execute(
         "CREATE TABLE user_places(id TEXT PRIMARY KEY, title TEXT, image TEXT)");
   }, version: 1);
-  log("get database");
 
   return db;
 }
@@ -25,10 +23,8 @@ class ListManipulator extends StateNotifier<List<Place>> {
   WidgetRef? ref;
 
   Future<void> loadPlaces() async {
-
     final db = await getDataBase();
     final data = await db.query('user_places');
-    log(data.toString());
 
     var places = data
         .map(
@@ -38,8 +34,6 @@ class ListManipulator extends StateNotifier<List<Place>> {
               image: File(row['image'] as String)),
         )
         .toList();
-    log(places.toString());
-   
 
     state = places;
   }
@@ -48,28 +42,23 @@ class ListManipulator extends StateNotifier<List<Place>> {
     final appDir = await syspaths.getApplicationDocumentsDirectory();
     final fileName = path.basename(image.path);
     var pickedImages = await image.copy("${appDir.path}/$fileName");
-    log(pickedImages.toString());
     final item = Place(
       image: pickedImages,
       title: title,
     );
     state = [...state, item];
     final db = await getDataBase();
-    log(state.toString());
 
     await db.insert(
       'user_places',
       {'id': item.id, 'title': item.title, 'image': item.image.path},
     );
-    log("add item");
   }
 
   void remove(Place item) async {
     state = state.where((element) => element != item).toList();
     final db = await getDataBase();
     await db.delete('user_places', where: 'id == ?', whereArgs: [item.id]);
-    log("remove item");
-    log(state.toString());
   }
 }
 
